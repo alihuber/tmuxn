@@ -45,11 +45,11 @@ root: ~/
 
 windows:
   - editor:
-      layout: main-vertical
-      # Synchronize all panes of this window after the pane commands.
-      # synchronize: after
-      panes:
-        - vim
-        - mongo
+    layout: main-vertical
+    # Synchronize all panes of this window after the pane commands.
+    # synchronize: after
+    panes:
+      - vim
+      - mongo
   - server: node app.js
   - logs: tail -f access.log
