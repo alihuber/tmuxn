@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 
-const kexec         = require('kexec');
-const shell         = require("shelljs");
-const utils         = require('./lib/utils');
-const ScriptBuilder = require('./lib/script_builder').ScriptBuilder;
+const kexec             = require('kexec');
+const shell             = require("shelljs");
+const utils             = require('./lib/utils');
+const ScriptBuilder     = require('./lib/script_builder').ScriptBuilder;
+const KillScriptBuilder = require('./lib/kill_script_builder').KillScriptBuilder;
 
 let tmuxn = require('commander');
 tmuxn
@@ -23,28 +24,33 @@ if(!tmuxn.create && !tmuxn.start && !tmuxn.kill && !tmuxn.debug) {
 
 try {
   if(tmuxn.start) {
-    utils.checkHealth();
-    let loadedData  = utils.parseYamlByName(tmuxn.start);
-    _checkLoadedData(loadedData);
-    let execString  = new ScriptBuilder(loadedData).buildScript();
-    // kexec(execString);
+    let loadedData = _loadCheckData(tmuxn.start);
+    let execString = new ScriptBuilder(loadedData).buildScript();
+    kexec(execString);
   }
   if(tmuxn.create) {
     utils.checkHealth();
     utils.createNewProjectWithName(tmuxn.create);
   }
   if(tmuxn.kill) {
-    // TODO implement kill template
+    let loadedData = _loadCheckData(tmuxn.kill);
+    let execString = new KillScriptBuilder(loadedData).buildScript();
+    kexec(execString);
   }
   if(tmuxn.debug) {
-    utils.checkHealth();
-    let loadedData  = utils.parseYamlByName(tmuxn.debug);
-    _checkLoadedData(loadedData);
-    let execString  = new ScriptBuilder(loadedData).buildScript();
+    let loadedData = _loadCheckData(tmuxn.debug);
+    let execString = new ScriptBuilder(loadedData).buildScript();
     console.log(execString);
   }
 } catch (e) {
   console.log(e);
+}
+
+function _loadCheckData(name) {
+  utils.checkHealth();
+  let loadedData = utils.parseYamlByName(name);
+  _checkLoadedData(loadedData);
+  return loadedData;
 }
 
 function _checkLoadedData(loadedData) {
