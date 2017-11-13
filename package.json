@@ -1,7 +1,11 @@
 {
   "name": "tmuxn",
   "version": "0.0.1",
-  "description": "tmux session manager written in NodeJS",
+  "description": "tmux session manager written for NodeJS",
+  "repository": "alihuber/tmuxn",
+  "homepage": "https://github.com/alihuber/tmuxn",
+  "author": "Alexander Huber",
+  "license": "MIT",
   "main": "tmuxn.js",
   "scripts": {
     "test": "jest"
@@ -22,8 +26,6 @@
     "attach",
     "detach"
   ],
-  "author": "Alexander Huber",
-  "license": "MIT",
   "dependencies": {
     "commander": "^2.11.0",
     "expand-home-dir": "0.0.3",

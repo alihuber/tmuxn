@@ -9,7 +9,7 @@ const KillScriptBuilder = require('./lib/kill_script_builder').KillScriptBuilder
 let tmuxn = require('commander');
 tmuxn
   .version('0.0.1')
-  .usage('[new/start] <project_name>')
+  .usage('[--create/--start/--kill/--debug] <project_name>')
   .option('-c, --create <project_name>', 'Create new project with name')
   .option('-s, --start <project_name>',  'Start project with name')
   .option('-k, --kill <project_name>',   'Kill project with name')
