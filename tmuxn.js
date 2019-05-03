@@ -9,11 +9,13 @@ const KillScriptBuilder = require('./lib/kill_script_builder').KillScriptBuilder
 let tmuxn = require('commander');
 tmuxn
   .version('0.0.1')
-  .usage('[--create/--start/--kill/--debug] <project_name>')
+  .usage('[--create/--start/--kill/--debug] <project_name>', '[--project] <project_config>', '[--root] <project_root>')
   .option('-c, --create <project_name>', 'Create new project with name')
   .option('-s, --start <project_name>',  'Start project with name')
   .option('-k, --kill <project_name>',   'Kill project with name')
   .option('-d, --debug <project_name>',  'Print shell commands of project with name')
+  .option('-p, --project <project_config>',  'Provide project config file')
+  .option('-r, --root <project_root>',  'Provide project root start point')
   .parse(process.argv);
 
 if(!tmuxn.create && !tmuxn.start && !tmuxn.kill && !tmuxn.debug) {
@@ -24,7 +26,17 @@ if(!tmuxn.create && !tmuxn.start && !tmuxn.kill && !tmuxn.debug) {
 
 try {
   if(tmuxn.start) {
-    let loadedData = _loadCheckData(tmuxn.start);
+    let loadedData;
+    if(typeof tmuxn.project !== 'undefined' && utils.checkFile(tmuxn.project)){
+      if(typeof tmuxn.root !== 'undefined' && utils.checkFile(tmuxn.root)) {
+        loadedData = _loadCheckDataByFileName(tmuxn.project, tmuxn.root);
+      } else {
+        loadedData = _loadCheckDataByFileName(tmuxn.project);
+      }
+    }
+    else{
+      loadedData = _loadCheckData(tmuxn.start);
+    }
     let execString = new ScriptBuilder(loadedData).buildScript();
     kexec(execString);
   }
@@ -49,6 +61,13 @@ try {
 function _loadCheckData(name) {
   utils.checkHealth();
   let loadedData = utils.parseYamlByName(name);
+  _checkLoadedData(loadedData);
+  return loadedData;
+}
+
+function _loadCheckDataByFileName(filename, root=undefined) {
+  utils.checkHealth();
+  let loadedData = utils.parseYamlByFileName(filename, root);
   _checkLoadedData(loadedData);
   return loadedData;
 }
