@@ -16,9 +16,9 @@ tmuxn
   .option('-d, --debug <project_name>',  'Print shell commands of project with name')
   .option('-p, --project <project_config>',  'Provide project config file')
   .option('-r, --root <project_root>',  'root=$PD as a command line argument WITHOUT dashes')
-  .option('-v, --server <project_server>',  'server=   (use dev, stage, or prod) This is used to set the MTI_ENV variable required by Drush')
-  .option('-w, --web <project_web>',  'web=  (dev-web, stage-web1, prod-web1)')
-  .option('-p, --pal <project_pal>',  'pal=  (dev-pal, stage-pal1, prod-pal1)')
+  .option('-v, --server <project_server>',  'dev|stage|prod This is used to set the MTI_ENV variable required by Drush')
+  .option('-w, --web <project_web>',  'dev-web|stage-web1|prod-web1')
+  .option('-p, --pal <project_pal>',  'dev-pal|stage-pal1|prod-pal1')
   .parse(process.argv);
 
 if(!tmuxn.create && !tmuxn.start && !tmuxn.kill && !tmuxn.debug) {
