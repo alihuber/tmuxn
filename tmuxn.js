@@ -15,7 +15,10 @@ tmuxn
   .option('-k, --kill <project_name>',   'Kill project with name')
   .option('-d, --debug <project_name>',  'Print shell commands of project with name')
   .option('-p, --project <project_config>',  'Provide project config file')
-  .option('-r, --root <project_root>',  'Provide project root start point')
+  .option('-r, --root <project_root>',  'root=$PD as a command line argument WITHOUT dashes')
+  .option('-v, --server <project_server>',  'server=   (use dev, stage, or prod) This is used to set the MTI_ENV variable required by Drush')
+  .option('-w, --web <project_web>',  'web=  (dev-web, stage-web1, prod-web1)')
+  .option('-p, --pal <project_pal>',  'pal=  (dev-pal, stage-pal1, prod-pal1)')
   .parse(process.argv);
 
 if(!tmuxn.create && !tmuxn.start && !tmuxn.kill && !tmuxn.debug) {
@@ -27,12 +30,31 @@ if(!tmuxn.create && !tmuxn.start && !tmuxn.kill && !tmuxn.debug) {
 try {
   if(tmuxn.start) {
     let loadedData;
-    if(typeof tmuxn.project !== 'undefined' && utils.checkFile(tmuxn.project)){
-      if(typeof tmuxn.root !== 'undefined' && utils.checkFile(tmuxn.root)) {
-        loadedData = _loadCheckDataByFileName(tmuxn.project, tmuxn.root);
-      } else {
-        loadedData = _loadCheckDataByFileName(tmuxn.project);
+    let project;
+    let root;
+    let server;
+    let web;
+    let pal;
+
+
+    if(typeof tmuxn.project !== 'undefined' && tmuxn.project && utils.checkFile(tmuxn.project)){
+      project = tmuxn.project;
+      if(typeof tmuxn.root !== 'undefined' && tmuxn.root && utils.checkFile(tmuxn.root)) {
+        root = tmuxn.root;
       }
+      if(typeof tmuxn.server !== 'undefined' && tmuxn.server) {
+        server = tmuxn.server;
+      }
+      if(typeof tmuxn.web !== 'undefined' && tmuxn.web) {
+        web = tmuxn.web;
+      }
+      if(typeof tmuxn.pal !== 'undefined' && tmuxn.pal) {
+        pal = tmuxn.pal;
+      }
+      loadedData = _loadCheckDataByFileName(project, root, server, web, pal);
+      //else {
+        //loadedData = _loadCheckDataByFileName(tmuxn.project);
+      //}
     }
     else{
       loadedData = _loadCheckData(tmuxn.start);
@@ -65,9 +87,9 @@ function _loadCheckData(name) {
   return loadedData;
 }
 
-function _loadCheckDataByFileName(filename, root=undefined) {
+function _loadCheckDataByFileName(filename, root=undefined, server=undefined, web=undefined, pal=undefined) {
   utils.checkHealth();
-  let loadedData = utils.parseYamlByFileName(filename, root);
+  let loadedData = utils.parseYamlByFileName(filename, root, server, web, pal);
   _checkLoadedData(loadedData);
   return loadedData;
 }
