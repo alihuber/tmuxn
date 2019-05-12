@@ -18,6 +18,8 @@ npm install -g tmuxn
     -s, --start <project_name>   Start project with name
     -k, --kill <project_name>    Kill project with name
     -d, --debug <project_name>   Print shell commands of project with name
+    -p, --project <project_config> Provide project config file
+    -r, --root <project_root>    Provide project root start point
     -h, --help                   output usage information
 ```
 
