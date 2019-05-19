@@ -1,12 +1,24 @@
 # tmuxn
+
 Adhering to [Atwood's Law](https://blog.codinghorror.com/the-principle-of-least-power/), here comes the tmux session manager written for NodeJS similar to [tmuxinator](https://github.com/tmuxinator/tmuxinator) and [tmuxp](https://github.com/tony/tmuxp)
 
 ## Installation
+
+Rudimentary tested with
+
+- NodeJS 6.11.5/tmux 2.6/MacOS 10.13.1,
+- NodeJS 6.11.5/tmux 2.6.3/Ubuntu 18.04 LTS,
+- NodeJS 10.15.3/tmux 2.6.3/Ubuntu 18.04 LTS and
+- NodeJS 10.15.2/tmux 2.9a/MacOS 10.14.4
+
+Other or older versions of tmux are not tested or supported.
+
 ```
 npm install -g tmuxn
 ```
 
 ## Usage
+
 ```
   Usage: tmuxn [--create/--start/--kill/--debug] <project_name>
 
@@ -24,18 +36,20 @@ npm install -g tmuxn
 ```
 
 ## What does it do?
+
 - Start tmux sessions configured in .yml-files, tmuxinator-style
-- Tested with NodeJS 6.11.5 and tmux 2.6 on MacOS 10.13.1, other/older versions of tmux are not tested or supported
 - Figure out where to store the config files (`$XDG_CONFIG_HOME/tmuxn` or `~/.tmuxn`)
-- Docs / gotchas from tmuxinator should apply for tmuxn as well
+- Docs / gotchas from tmuxinator should apply to tmuxn as well
 
 ## What does it not do?
+
 - Depend on `$EDITOR`
 - Do anything Ruby-specific
 - Manage (copy/delete) the configuration files
 - Provide bash completion
 
 ## Sample config
+
 ```yaml
 # ~/.tmuxn/sample.yml
 
