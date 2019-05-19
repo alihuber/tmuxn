@@ -1,3 +1,3 @@
-const xdgBasedir  = jest.genMockFromModule('xdg-basedir');
+const xdgBasedir = jest.genMockFromModule('xdg-basedir');
 xdgBasedir.config = false;
-module.exports    = xdgBasedir;
+module.exports = xdgBasedir;

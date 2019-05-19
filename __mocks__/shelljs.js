@@ -1,18 +1,18 @@
 const shell = jest.genMockFromModule('shelljs');
 
-function which(str) {
+function which (/*str*/) {
   return undefined;
 }
 
-function exit(status) {
+function exit (/*status*/) {
   return 1;
 }
 
-function exec(string) {
-  return {stdout:"base-index 1\npane-base-index 1\n"};
+function exec (/*string*/) {
+  return { stdout: 'base-index 1\npane-base-index 1\n' };
 }
 
-shell.which    = which;
-shell.exit     = exit;
-shell.exec     = exec;
+shell.which = which;
+shell.exit = exit;
+shell.exec = exec;
 module.exports = shell;

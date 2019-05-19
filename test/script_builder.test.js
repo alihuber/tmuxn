@@ -1,109 +1,87 @@
-const ScriptBuilder = require("../lib/script_builder").ScriptBuilder;
+const ScriptBuilder = require('../lib/script_builder').ScriptBuilder;
 
-const simpleLoadedYaml = { name: 'test',
+const simpleLoadedYaml = {
+  name: 'test',
   root: '/Users/foo',
   pre_window: 'pre-window',
-  windows: 
-   [ { server: 'node app.js', synchronize: 'after' },
-     { stats: {} },
-     { logs: null,
-       pre: 'foo',
-       layout: 'main-vertical',
-       panes: {} } ],
-    baseIndex: '1',
-    paneBaseIndex: '1',
-    tmux: 'tmux' };
+  windows: [{ server: 'node app.js', synchronize: 'after' }, { stats: {} }, { logs: null, pre: 'foo', layout: 'main-vertical', panes: {} }],
+  baseIndex: '1',
+  paneBaseIndex: '1',
+  tmux: 'tmux',
+};
 
-const projectStartYaml = { name: 'test',
+const projectStartYaml = {
+  name: 'test',
   root: '/Users/foo',
-  on_project_start: "baz",
+  on_project_start: 'baz',
   pre_window: 'pre-window',
-  windows: 
-   [ { server: 'node app.js', synchronize: 'after' },
-     { stats: {} },
-     { logs: null,
-       pre: 'foo',
-       layout: 'main-vertical',
-       panes: {} } ],
-    baseIndex: '1',
-    paneBaseIndex: '1',
-    tmux: 'tmux' };
+  windows: [{ server: 'node app.js', synchronize: 'after' }, { stats: {} }, { logs: null, pre: 'foo', layout: 'main-vertical', panes: {} }],
+  baseIndex: '1',
+  paneBaseIndex: '1',
+  tmux: 'tmux',
+};
 
-const noAttachYaml = { name: 'test',
+const noAttachYaml = {
+  name: 'test',
   root: '/Users/foo',
   attach: false,
   pre_window: 'pre-window',
-  windows: 
-   [ { server: 'node app.js', synchronize: 'after' },
-     { stats: {} },
-     { logs: null,
-       pre: 'foo',
-       layout: 'main-vertical',
-       panes: {} } ],
-    baseIndex: '1',
-    paneBaseIndex: '1',
-    tmux: 'tmux' };
+  windows: [{ server: 'node app.js', synchronize: 'after' }, { stats: {} }, { logs: null, pre: 'foo', layout: 'main-vertical', panes: {} }],
+  baseIndex: '1',
+  paneBaseIndex: '1',
+  tmux: 'tmux',
+};
 
-const socketOptionsYaml = { name: 'test',
+const socketOptionsYaml = {
+  name: 'test',
   root: '/Users/foo',
-  socket_name: "qux",
-  tmux_options: "-f ~/.tmux.mac.conf",
-  windows: 
-   [ { server: 'node app.js', synchronize: 'after' },
-     { stats: {} },
-     { logs: null,
-       pre: 'foo',
-       layout: 'main-vertical',
-       panes: {} } ],
-    baseIndex: '1',
-    paneBaseIndex: '1',
-    tmux: 'tmux' };
+  socket_name: 'qux',
+  tmux_options: '-f ~/.tmux.mac.conf',
+  windows: [{ server: 'node app.js', synchronize: 'after' }, { stats: {} }, { logs: null, pre: 'foo', layout: 'main-vertical', panes: {} }],
+  baseIndex: '1',
+  paneBaseIndex: '1',
+  tmux: 'tmux',
+};
 
-const tildeRootYaml = { name: 'test',
+const tildeRootYaml = {
+  name: 'test',
   root: '~/',
-  socket_name: "qux",
-  tmux_options: "-f ~/.tmux.mac.conf",
-  windows: 
-   [ { server: 'node app.js', synchronize: 'after' },
-     { stats: {} },
-     { logs: null,
-       pre: 'foo',
-       layout: 'main-vertical',
-       panes: {} } ],
+  socket_name: 'qux',
+  tmux_options: '-f ~/.tmux.mac.conf',
+  windows: [{ server: 'node app.js', synchronize: 'after' }, { stats: {} }, { logs: null, pre: 'foo', layout: 'main-vertical', panes: {} }],
+  baseIndex: '1',
+  paneBaseIndex: '1',
+  tmux: 'tmux',
+};
+
+const expectedScriptBuilder = {
+  loadedData: {
     baseIndex: '1',
+    name: 'test',
     paneBaseIndex: '1',
-    tmux: 'tmux' };
+    pre_window: 'pre-window',
+    root: '/Users/foo',
+    tmux: 'tmux',
+    windows: [
+      {
+        server: 'node app.js',
+        synchronize: 'after',
+      },
+      {
+        stats: {},
+      },
+      {
+        layout: 'main-vertical',
+        logs: null,
+        panes: {},
+        pre: 'foo',
+      },
+    ],
+  },
+  tmuxBinCommand: 'tmux',
+};
 
-const expectedScriptBuilder =
-  {
-    "loadedData": {
-      "baseIndex": "1",
-      "name": "test",
-      "paneBaseIndex": "1",
-      "pre_window": "pre-window",
-      "root": "/Users/foo",
-      "tmux": "tmux",
-      "windows": [
-        {
-          "server": "node app.js",
-          "synchronize": "after"
-        },
-        {
-          "stats": {}
-        },
-        {
-          "layout": "main-vertical",
-          "logs": null,
-          "panes": {},
-          "pre": "foo"
-        }
-      ]
-    },
-    "tmuxBinCommand": "tmux"
-  };
-
-const expectedScript = 
-`#!/bin/bash
+const expectedScript = `#!/bin/bash
 tmux start-server;
 cd /Users/foo
 TMUX= tmux new-session -d -s test -n server
@@ -124,8 +102,7 @@ if [ -z \"$TMUX\" ]; then
         tmux -u switch-client -t test
       fi`;
 
-const projectStartScript = 
-`#!/bin/bash
+const projectStartScript = `#!/bin/bash
 tmux start-server;
 cd /Users/foo
 baz
@@ -147,8 +124,7 @@ if [ -z \"$TMUX\" ]; then
         tmux -u switch-client -t test
       fi`;
 
-const noAttachScript =
-`#!/bin/bash
+const noAttachScript = `#!/bin/bash
 tmux start-server;
 cd /Users/foo
 TMUX= tmux new-session -d -s test -n server
@@ -164,8 +140,7 @@ tmux set-window-option -t test:1 synchronize-panes on
 tmux select-window -t test:1
 tmux select-pane -t test:1.1`;
 
-const socketOptionsScript =
-`#!/bin/bash
+const socketOptionsScript = `#!/bin/bash
 tmux-f ~/.tmux.mac.conf -L qux start-server;
 cd /Users/foo
 TMUX= tmux-f ~/.tmux.mac.conf -L qux new-session -d -s test -n server
@@ -183,36 +158,28 @@ if [ -z \"$TMUX\" ]; then
         tmux-f ~/.tmux.mac.conf -L qux -u switch-client -t test
       fi`;
 
-
 describe('script builder class', () => {
-
   test('it has a constructor', () => {
-    expect(new ScriptBuilder(simpleLoadedYaml))
-      .toMatchObject(expectedScriptBuilder);
+    expect(new ScriptBuilder(simpleLoadedYaml)).toMatchObject(expectedScriptBuilder);
   });
 
   test('it builds a script', () => {
-    expect(new ScriptBuilder(simpleLoadedYaml).buildScript())
-      .toMatch(expectedScript);
+    expect(new ScriptBuilder(simpleLoadedYaml).buildScript()).toMatch(expectedScript);
   });
 
   test('it uses project start hook', () => {
-    expect(new ScriptBuilder(projectStartYaml).buildScript())
-      .toMatch(projectStartScript);
+    expect(new ScriptBuilder(projectStartYaml).buildScript()).toMatch(projectStartScript);
   });
 
   test('it does not attach when configured', () => {
-    expect(new ScriptBuilder(noAttachYaml).buildScript())
-      .toMatch(noAttachScript);
+    expect(new ScriptBuilder(noAttachYaml).buildScript()).toMatch(noAttachScript);
   });
 
   test('it takes socket and tmux options', () => {
-    expect(new ScriptBuilder(socketOptionsYaml).buildScript())
-      .toMatch(socketOptionsScript);
+    expect(new ScriptBuilder(socketOptionsYaml).buildScript()).toMatch(socketOptionsScript);
   });
 
   test('it takes special care of "~" root paths', () => {
-    expect(new ScriptBuilder(tildeRootYaml).buildScript()).not
-      .toMatch(/cd\/Users\/foo/);
+    expect(new ScriptBuilder(tildeRootYaml).buildScript()).not.toMatch(/cd\/Users\/foo/);
   });
 });
