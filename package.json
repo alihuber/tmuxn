@@ -1,6 +1,6 @@
 {
   "name": "tmuxn",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "tmux session manager written for NodeJS",
   "repository": "alihuber/tmuxn",
   "homepage": "https://github.com/alihuber/tmuxn",
@@ -34,7 +34,7 @@
     "expand-home-dir": "0.0.3",
     "get-installed-path": "^4.0.8",
     "js-yaml": "^3.13.1",
-    "kexec": "^3.0.0",
+    "@jcoreio/kexec": "^4.0.0",
     "shelljs": "^0.8.3",
     "shellwords": "^0.1.1",
     "xdg-basedir": "^4.0.0"

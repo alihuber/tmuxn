@@ -1,5 +1,7 @@
 const ScriptBuilder = require('../lib/script_builder').ScriptBuilder;
 
+const shell = process.env.SHELL || "/bin/bash";
+
 const simpleLoadedYaml = {
   name: 'test',
   root: '/Users/foo',
@@ -81,7 +83,7 @@ const expectedScriptBuilder = {
   tmuxBinCommand: 'tmux',
 };
 
-const expectedScript = `#!/bin/bash
+const expectedScript = `#!${shell}
 tmux start-server;
 cd /Users/foo
 TMUX= tmux new-session -d -s test -n server
@@ -102,7 +104,7 @@ if [ -z \"$TMUX\" ]; then
         tmux -u switch-client -t test
       fi`;
 
-const projectStartScript = `#!/bin/bash
+const projectStartScript = `#!${shell}
 tmux start-server;
 cd /Users/foo
 baz
@@ -124,7 +126,7 @@ if [ -z \"$TMUX\" ]; then
         tmux -u switch-client -t test
       fi`;
 
-const noAttachScript = `#!/bin/bash
+const noAttachScript = `#!${shell}
 tmux start-server;
 cd /Users/foo
 TMUX= tmux new-session -d -s test -n server
@@ -140,7 +142,7 @@ tmux set-window-option -t test:1 synchronize-panes on
 tmux select-window -t test:1
 tmux select-pane -t test:1.1`;
 
-const socketOptionsScript = `#!/bin/bash
+const socketOptionsScript = `#!${shell}
 tmux-f ~/.tmux.mac.conf -L qux start-server;
 cd /Users/foo
 TMUX= tmux-f ~/.tmux.mac.conf -L qux new-session -d -s test -n server

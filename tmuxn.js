@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-const kexec = require('kexec');
+const kexec = require('@jcoreio/kexec');
 const shell = require('shelljs');
 const utils = require('./lib/utils');
 const ScriptBuilder = require('./lib/script_builder').ScriptBuilder;
