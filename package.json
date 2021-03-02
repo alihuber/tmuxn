@@ -1,12 +1,14 @@
 {
   "name": "tmuxn",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "tmux session manager written for NodeJS",
   "repository": "alihuber/tmuxn",
   "homepage": "https://github.com/alihuber/tmuxn",
   "author": "Alexander Huber",
   "contributors": [
-    "Edgar Sosa Quiroz"
+    "Edgar Sosa Quiroz",
+    "Ivan Alexandrov",
+    "anatoo"
   ],
   "license": "MIT",
   "main": "tmuxn.js",
